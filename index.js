@@ -6,6 +6,12 @@ module.exports = function (file, o) {
   var opts = o || {};
   var ext = opts.ext || 'tag';
   var content = '';
+  
+  if (opts.parsers) {
+    opts.parsers.forEach(function(parser) {
+      riot.parsers[parser.type][parser.name] = parser.process;
+    })
+  }
 
   return !file.match('\.' + ext + '$') ? through() : through(
     function (chunk) { // write
